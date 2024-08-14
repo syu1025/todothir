@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>To Do リスト これは反映されないらしい</title>
+    <title>MY To Do List</title>
     <style>
         h1 {
             font-size: 70pt;
@@ -18,26 +18,35 @@
     <hr>
     <h1>To Do List</h1>
     <fieldset>
-        <legend>下に記入</legend>
-        <div>
-            <input type="checkbox" id="first"><input type="text" id="first" placeholder="to do input">
-            <input type="checkbox" id="first"><input type="text" id="first" placeholder="to do input">
-            <p>
-                <input type="checkbox" id="first"><input type="text" id="first" placeholder="to do input">
-                <input type="checkbox" id="first"><input type="text" id="first" placeholder="to do input">
-            <p>
-                <input type="checkbox" id="first"><input type="text" id="first" placeholder="to do input">
-                <input type="checkbox" id="first"><input type="text" id="first" placeholder="to do input">
-            <p>
-                <input type="checkbox" id="first"><input type="text" id="first" placeholder="to do input">
-                <input type="checkbox" id="first"><input type="text" id="first" placeholder="to do input">
-            <p>
-                <input type="checkbox" id="first"><input type="text" id="first" placeholder="to do input">
-                <input type="checkbox" id="first"><input type="text" id="first" placeholder="to do input">
-            <p>
-                <input type="checkbox" id="first"><input type="text" id="first" placeholder="to do input">
-                <input type="checkbox" id="first"><input type="text" id="first" placeholder="to do input">
-        </div>
+
+        <body>
+            <h3>Input Form with Todo List</h3>
+            <form action="{{ route('input.store') }}" method="POST">
+                @csrf
+                <legend>メイン入力</legend>
+                <input type="text" name="content" value="{{ $latestInput->content ?? '' }}"
+                    placeholder="Enter your main input">
+                <button type="submit">Submit</button>
+
+                <legend>Todo リスト</legend>
+                <div>
+                    @if ($todos)
+                        @foreach ($todos as $todo)
+                            <div>
+                                <input type="checkbox">{{ $todo->content }}
+                                @if ($todo->created_at)
+                                    ({{ $todo->created_at->diffForHumans() }})
+                                @else
+                                    (No timestamp available)
+                                @endif
+                            </div>
+                        @endforeach
+                    @else
+                        <p>No todos available</p>
+                    @endif
+                </div>
+            </form>
+        </body>
     </fieldset>
     <br>
     <hr>

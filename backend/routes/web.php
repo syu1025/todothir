@@ -14,5 +14,6 @@ use App\Http\Controllers\HelloController;
 |
 */
 
-Route::get('/', [HelloController::class, 'index']);
-Route::get('/memo', [HelloController::class, 'memo']);
+Route::get('/', [HelloController::class, 'index'])->name("input.index");
+Route::get('/memo', [HelloController::class, 'memo'])->name("input.memo");
+Route::post("/todolists", [HelloController::class, "store"])->name("input.store");
