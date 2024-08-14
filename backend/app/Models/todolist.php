@@ -9,5 +9,5 @@ class todolist extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['content'];
+    protected $fillable = ['content', 'byDate'];
 }

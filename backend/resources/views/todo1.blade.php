@@ -24,26 +24,41 @@
             <form action="{{ route('input.store') }}" method="POST">
                 @csrf
                 <legend>メイン入力</legend>
-                <input type="text" name="content" value="{{ $latestInput->content ?? '' }}"
-                    placeholder="Enter your main input">
+                <input type="text" name="content"
+                    value="{{ $latestInput->content ?? '' }}"placeholder="Enter your main input">
+                <input type="date" name="byDate" id="byDate">
                 <button type="submit">Submit</button>
+            </form>
+            <br>
 
+            <form action="{{ route('input.deleteChecked') }}" method="POST">
+                @csrf
+                @method('DELETE')
                 <legend>Todo リスト</legend>
                 <div>
-                    @if ($todos)
-                        @foreach ($todos as $todo)
-                            <div>
-                                <input type="checkbox">{{ $todo->content }}
-                                @if ($todo->created_at)
-                                    ({{ $todo->created_at->diffForHumans() }})
-                                @else
-                                    (No timestamp available)
-                                @endif
-                            </div>
-                        @endforeach
-                    @else
-                        <p>No todos available</p>
-                    @endif
+                    <a href="{{ route('input.index', ['sort' => 'byDate']) }}" class="btn btn-primary">期限日で並べ替え</a>
+                    <a href="{{ route('input.index', ['sort' => 'created_at']) }}"
+                        class="btn btn-secondary">作成日で並べ替え</a>
+                </div>
+                <br>
+                @if ($todos)
+                    @foreach ($todos as $todo)
+                        <div>
+                            <input type="checkbox" name="todos[]" value="{{ $todo->id }}"
+                                id="todo-{{ $todo->id }}">
+                            <label for="todo-{{ $todo->id }}">{{ $todo->content }}/{{ $todo->byDate }}/</label>
+                            @if ($todo->created_at)
+                                ({{ $todo->created_at->diffForHumans() }})
+                            @else
+                                (No timestamp available)
+                            @endif
+                        </div>
+                    @endforeach
+                @else
+                    <p>No todos available</p>
+                @endif
+                <br>
+                <button type="submit" class="btn btn-danger mt-3">削除</button>
                 </div>
             </form>
         </body>

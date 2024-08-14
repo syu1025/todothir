@@ -7,9 +7,18 @@ use Illuminate\Http\Request;
 
 class HelloController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $todos = todolist::all();
+
+        $sort = $request->query('sort', 'created_at');
+
+        if ($sort === 'byDate') {
+            $todos = todolist::orderBy('byDate', 'asc')->get();
+        } else {
+            $todos = todolist::orderBy('created_at', 'asc')->get();
+        }
+
         return view('todo1', compact("todos"));
     }
 
@@ -22,11 +31,24 @@ class HelloController extends Controller
     {
         $validatedData = $request->validate([
             "content" => "required|max:255",
+            'byDate' => 'required|date'
         ]);
 
         todolist::create($validatedData);
 
         return redirect()->route("input.index");
+    }
+
+    public function deleteChecked(Request $request)
+    {
+        $todoIds = $request->input("todos", []);
+
+        if (!empty($todoIds)) {
+            todolist::whereIn('id', $todoIds)->delete();
+            return redirect()->route('input.index')->with('success', 'チェックしたアイテムを削除しました。');
+        }
+
+        return redirect()->route('input.index')->with('info', '削除するアイテムが選択されていません。');
     }
 
 
