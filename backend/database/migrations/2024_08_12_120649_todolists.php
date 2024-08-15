@@ -17,6 +17,10 @@ return new class extends Migration
             $table->timestamps();
             $table->Date("byDate")->nullable()->change;
         });
+
+        Schema::table('todolists', function (Blueprint $table) {
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        });
     }
 
     /**
@@ -25,5 +29,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists("todolists");
+
+        Schema::table('todolists', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
+        });
     }
 };

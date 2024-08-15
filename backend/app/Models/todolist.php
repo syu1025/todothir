@@ -9,5 +9,10 @@ class todolist extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['content', 'byDate'];
+    protected $fillable = ['content', 'byDate', "user_id"];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

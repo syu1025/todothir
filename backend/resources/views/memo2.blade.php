@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>To Do リスト これは反映されないらしい</title>
+    <title>memo</title>
     <style>
         h1 {
             font-size: 70pt;

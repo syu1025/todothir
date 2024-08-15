@@ -9,7 +9,7 @@ class HelloController extends Controller
 {
     public function index(Request $request)
     {
-        $todos = todolist::all();
+        $user = $request->user();
 
         $sort = $request->query('sort', 'created_at');
 
@@ -34,7 +34,7 @@ class HelloController extends Controller
             'byDate' => 'required|date'
         ]);
 
-        todolist::create($validatedData);
+        $request->user()->todos()->create($validatedData);
 
         return redirect()->route("input.index");
     }
