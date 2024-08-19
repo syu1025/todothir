@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/main', function () {
-    $todos = auth()->check() ? auth()->user()->todos : null;
+    $todos = auth()->check() ? auth()->user()->todos : null; //調べる
     $latestInput = auth()->check() ? auth()->user()->latestInput : null;
     return view('todo1', compact('todos', 'latestInput'));
 })->name("input.index");

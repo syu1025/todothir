@@ -31,10 +31,10 @@ class HelloController extends Controller
     {
         $validatedData = $request->validate([
             "content" => "required|max:255",
-            'byDate' => 'required|date'
+            'byDate' => 'nullable|date'
         ]);
 
-        $request->user()->todos()->create($validatedData);
+        $request->user()->todos()->create($validatedData);   //realtionを示すらしい
 
         return redirect()->route("input.index");
     }
